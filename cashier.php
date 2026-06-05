@@ -80,19 +80,10 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
           <span class="order-info__value"><?php echo $row['addtime']?></span>
         </li>
       </ul>
-      <div class="order-breakdown">
-        <div class="order-breakdown__row">
-          <span class="order-breakdown__label">商品金额</span>
-          <span class="order-breakdown__value">&yen;<?php echo $row['money']?></span>
-        </div>
-        <div class="order-breakdown__row">
-          <span class="order-breakdown__label">手续费（1%）</span>
-          <span class="order-breakdown__value order-breakdown__value--fee">&yen;<?php echo number_format($row['money'] * 0.01, 2)?></span>
-        </div>
-        <div class="order-breakdown__total">
-          <span class="order-breakdown__label">实付金额</span>
-          <span class="order-breakdown__total-value">&yen;<?php echo number_format($row['money'] * 1.01, 2)?></span>
-        </div>
+      <div class="order-amount">
+        <span class="order-amount__label">应付金额：</span>
+        <span class="order-amount__symbol">&yen;</span>
+        <span class="order-amount__value"><?php echo $row['money']?></span>
       </div>
     </div>
   </div>
@@ -121,8 +112,7 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
   <!-- Pay Action -->
   <div class="pay-action">
     <div class="pay-action__info">
-      <div>实付 <span class="pay-action__price">&yen;<?php echo number_format(($row['realmoney'] ? $row['realmoney'] : $row['money']) * 1.01, 2)?></span></div>
-      <div class="pay-action__fee">含手续费 &yen;<?php echo number_format(($row['realmoney'] ? $row['realmoney'] : $row['money']) * 0.01, 2)?></div>
+      <div>需支付 <span class="pay-action__price">&yen;<?php echo $row['realmoney'] ? $row['realmoney'] : $row['money']?></span></div>
     </div>
     <a class="pay-action__btn immediate_pay">确认支付</a>
   </div>
@@ -150,23 +140,24 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
 <script src="<?php echo $cdnpublic?>jquery/1.12.4/jquery.min.js"></script>
 <script>
 $(function(){
+  var selectedPayId = "";
+
   // Payment method selection
-  $(".types .pay_li").on("click", function(){
+  $(".types").on("click", ".pay_li", function(){
     $(".types .pay_li").removeClass("active");
     $(this).addClass("active");
+    selectedPayId = $(this).attr("data-value");
   });
 
   // Submit payment
   $(document).on("click", ".immediate_pay", function(){
-    var active = $(".types").find(".active");
-    var value = active.length ? active.attr("data-value") : "";
     var trade_no = $("input[name='trade_no']").val();
-    if(!value){
+    if(!selectedPayId){
       $("#errorContent").text("请选择支付方式");
       $(".mt_agree").addClass("show");
       return;
     }
-    window.location.href = "./submit2.php?typeid=" + value + "&trade_no=" + trade_no;
+    window.location.href = "./submit2.php?typeid=" + selectedPayId + "&trade_no=" + trade_no;
   });
 
   // Close modal
@@ -175,7 +166,16 @@ $(function(){
   });
 
   // Select first payment method by default
-  $(".types .pay_li:first").click();
+  $(".types .pay_li:first").trigger("click");
+
+  // Handle browser back-forward cache
+  $(window).on("pageshow", function(e){
+    if(e.originalEvent && e.originalEvent.persisted){
+      selectedPayId = "";
+      $(".types .pay_li").removeClass("active");
+      $(".types .pay_li:first").trigger("click");
+    }
+  });
 });
 </script>
 </body>
