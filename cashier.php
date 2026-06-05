@@ -26,127 +26,107 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
 }
 ?>
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>收银台 | <?php echo $sitename ? $sitename : $conf['sitename']?></title>
-<link rel="icon" href="/favicon.ico">
-<link href="/assets/css/cashier.css" rel="stylesheet">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" name="viewport">
+<title>收银台 | <?php echo $sitename?$sitename:$conf['sitename']?> </title>
+<link href="/assets/css/reset.css" rel="stylesheet" type="text/css">
+<link href="/assets/css/main12.css?v=2" rel="stylesheet" type="text/css">
 </head>
-<body class="cashier-body">
-<div class="cashier-wrapper">
+<body style="background-color:#f9f9f9">
+<!--导航-->
+<div class="w100 navBD12">
+    <div class="w1080 nav12">
+        <div class="nav12-left">
+            <img src="/assets/img/logo.png">
+        </div>
+		<div class="nav12-right">
+            收银台
+        </div>
 
-  <!-- Header -->
-  <header class="cashier-header">
-    <img class="cashier-header__logo" src="/assets/img/logo.png" alt="Logo">
-    <span class="cashier-header__title">收银台</span>
-  </header>
-
-  <input type="hidden" name="trade_no" value="<?php echo $trade_no?>">
-
-  <?php if($other){ ?>
-  <!-- Alert: Payment method unavailable -->
-  <div class="cashier-alert">
-    <div class="cashier-alert__title">当前支付方式暂时关闭维护，请更换其他方式支付</div>
-    <div class="cashier-alert__desc">
-      如果您需要微信支付，请将微信余额转到QQ再选择QQ钱包支付！
     </div>
-    <a class="cashier-alert__link" href="./wx.html">查看微信余额转到QQ钱包教程 →</a>
-  </div>
-  <?php } else { ?>
-  <!-- Order Info -->
-  <div class="cashier-card order-info">
-    <ul class="order-info__list">
-      <li class="order-info__item">
-        <span class="order-info__label">商品名称</span>
-        <span class="order-info__value"><?php echo $row['name']?></span>
-      </li>
-      <li class="order-info__item">
-        <span class="order-info__label">订单号</span>
-        <span class="order-info__value"><?php echo $trade_no?></span>
-      </li>
-      <li class="order-info__item">
-        <span class="order-info__label">创建时间</span>
-        <span class="order-info__value"><?php echo $row['addtime']?></span>
-      </li>
-    </ul>
-    <div class="order-info__amount">
-      <span class="order-info__amount-label">订单金额</span>
-      <span class="order-info__amount-value"><?php echo $row['money']?></span>
-      <span class="order-info__amount-unit">元</span>
-    </div>
-  </div>
-  <?php } ?>
-
-  <!-- Payment Methods -->
-  <div class="cashier-card">
-    <h2 class="pay-methods__title">选择支付方式</h2>
-    <ul class="pay-methods__grid types">
-      <?php foreach($paytype as $rows){ ?>
-      <li class="pay-methods__item pay_li" data-value="<?php echo $rows['id']?>">
-        <img class="pay-methods__icon" src="/assets/icon/<?php echo $rows['name']?>.ico" alt="<?php echo $rows['showname']?>">
-        <span class="pay-methods__name"><?php echo $rows['showname']?></span>
-      </li>
-      <?php } ?>
-    </ul>
-  </div>
-
-  <!-- Pay Action -->
-  <div class="pay-action">
-    <div class="pay-action__summary">
-      <div>需支付 <span class="pay-action__price"><?php echo $row['realmoney'] ? $row['realmoney'] : $row['money']?></span> 元</div>
-      <?php if($row['realmoney'] && $row['realmoney'] != $row['money']){ ?>
-      <div class="pay-action__fee">（含 <?php echo $row['realmoney'] - $row['money']?> 元手续费）</div>
-      <?php } ?>
-    </div>
-    <a class="pay-action__btn immediate_pay">立即支付</a>
-  </div>
-
-  <!-- Footer -->
-  <footer class="cashier-footer">
-    <?php echo $sitename ? $sitename : $conf['sitename']?>
-  </footer>
 </div>
-
-<!-- Modal -->
-<div class="cashier-modal mt_agree">
-  <div class="cashier-modal__content mt_agree_main">
-    <h3 class="cashier-modal__title">提示信息</h3>
-    <p class="cashier-modal__message" id="errorContent"></p>
-    <a class="cashier-modal__btn close_btn">确定</a>
+<input type="hidden" name="trade_no" value="<?php echo $trade_no?>"/>
+<!--订单金额-->
+<?php if($other){?>
+<div class="w1080 order-amount12" style="height: auto;">
+    <h2><font style="color: red">当前支付方式暂时关闭维护，请更换其他方式支付</font></h2>
+</div>
+<div class="w1080 order-amount12" style="height: auto;">
+    <h2 style="font-size:18px"><font style="color: green">如果您需要微信支付请将微信余额转到QQ再选择QQ钱包支付！</font></h2>
+	<h3><a href="./wx.html" style="font-size:20px;color:blue">点击查看微信余额转到QQ钱包教程</a></h3>
+</div>
+<?php }else{?>
+<div class="w1080 order-amount12">
+    <ul class="order-amount12-left">
+        <li>
+            <span>商品名称：</span>
+            <span><?php echo $row['name']?></span>
+        </li>
+        <li>
+            <span>订单号：</span>
+            <span><?php echo $trade_no?></span>
+        </li>
+		<li>
+            <span>创建时间：</span>
+            <span><?php echo $row['addtime']?></span>
+        </li>
+    </ul>
+    <div class="order-amount12-right">
+        <span>订单金额：</span>
+        <strong><?php echo $row['money']?></strong>
+        <span>元</span>
+    </div>  
+</div>
+<?php }?>
+<!--支付方式-->
+<div class="w1080 PayMethod12">
+    <div class="row">
+        <h2>支付方式</h2>
+        <ul class="types">
+		<?php foreach($paytype as $rows){?>
+          <li class="pay_li" value="<?php echo $rows['id']?>">
+             <img src="/assets/icon/<?php echo $rows['name']?>.ico">
+                    <span><?php echo $rows['showname']?></span>
+          </li>
+		<?php }?>
+        </ul>
+    </div>
+</div>
+<!--立即支付-->
+<div class="w1080 immediate-pay12">
+  <div class="immediate-pay12-right">
+      <span>需支付：<strong><?php echo $row['realmoney']?$row['realmoney']:$row['money']?></strong>元<?php if($row['realmoney'] && $row['realmoney']!=$row['money'])echo '（包含'.($row['realmoney']-$row['money']).'元手续费）';?></span>
+        <a class="immediate_pay">立即支付</a>
+    </div>
+</div>
+<div class="mt_agree">
+  <div class="mt_agree_main">
+    <h2>提示信息</h2>
+    <p id="errorContent" style="text-align:center;line-height:36px;"></p>
+    <a class="close_btn">确定</a>
   </div>
+</div>
+<!--底部-->
+<div class="w1080 footer12">
+    <p> <?php echo $sitename?$sitename:$conf['sitename']?></p>
 </div>
 
 <script src="<?php echo $cdnpublic?>jquery/1.12.4/jquery.min.js"></script>
-<script>
-$(function(){
-  // Payment method selection
-  $(".types .pay_li").on("click", function(){
-    $(".types .pay_li").removeClass("active");
-    $(this).addClass("active");
-  });
-
-  // Submit payment
-  $(document).on("click", ".immediate_pay", function(){
-    var value = $(".types").find(".active").data("value");
-    var trade_no = $("input[name='trade_no']").val();
-    if(!value){
-      $("#errorContent").text("请选择支付方式");
-      $(".mt_agree").addClass("show");
-      return;
-    }
-    window.location.href = "./submit2.php?typeid=" + value + "&trade_no=" + trade_no;
-  });
-
-  // Close modal
-  $(".close_btn").on("click", function(){
-    $(".mt_agree").removeClass("show");
-  });
-
-  // Select first payment method by default
-  $(".types .pay_li:first").click();
-});
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".types li").click(function(){
+		$(".types li").each(function(){
+			$(this).attr('class','');
+		});
+		$(this).attr('class','active');
+	});
+	$(document).on("click", ".immediate_pay", function () {
+		var value = $(".types").find('.active').attr('value');
+		var trade_no = $("input[name='trade_no']").val();
+		window.location.href='./submit2.php?typeid='+value+'&trade_no='+trade_no;
+	});
+	$(".types li:first").click();
+})
 </script>
 </body>
 </html>
