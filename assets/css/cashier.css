@@ -194,35 +194,53 @@ body.cashier-body {
   margin-left: 2px;
 }
 
-/* Fee Notice */
-.order-fee-notice {
-  padding: 10px 20px;
-  background: #f6ffed;
-  border-top: 1px solid #b7eb8f;
-  font-size: 13px;
-  color: #52c41a;
+/* Order Breakdown */
+.order-breakdown {
+  padding: 16px 20px;
+  background: #fafafa;
+  border-top: 1px solid var(--border-light);
+}
+
+.order-breakdown__row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px;
+  padding: 6px 0;
 }
 
-.order-fee-notice__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #52c41a;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  flex-shrink: 0;
+.order-breakdown__label {
+  font-size: 13px;
+  color: var(--text-muted);
 }
 
-.order-fee-notice strong {
-  color: var(--red);
+.order-breakdown__value {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.order-breakdown__value--fee {
+  color: var(--orange);
+}
+
+.order-breakdown__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 0;
+  margin-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+.order-breakdown__total .order-breakdown__label {
+  font-size: 14px;
+  color: var(--text-primary);
   font-weight: 600;
+}
+
+.order-breakdown__total-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--red);
 }
 
 /* ===== Alert ===== */

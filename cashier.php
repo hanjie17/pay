@@ -80,14 +80,19 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
           <span class="order-info__value"><?php echo $row['addtime']?></span>
         </li>
       </ul>
-      <div class="order-amount">
-        <span class="order-amount__label">应付金额：</span>
-        <span class="order-amount__symbol">&yen;</span>
-        <span class="order-amount__value"><?php echo $row['money']?></span>
-      </div>
-      <div class="order-fee-notice">
-        <span class="order-fee-notice__icon">!</span>
-        实际支付时官方将收取 <strong>1%</strong> 的手续费
+      <div class="order-breakdown">
+        <div class="order-breakdown__row">
+          <span class="order-breakdown__label">商品金额</span>
+          <span class="order-breakdown__value">&yen;<?php echo $row['money']?></span>
+        </div>
+        <div class="order-breakdown__row">
+          <span class="order-breakdown__label">手续费（1%）</span>
+          <span class="order-breakdown__value order-breakdown__value--fee">&yen;<?php echo number_format($row['money'] * 0.01, 2)?></span>
+        </div>
+        <div class="order-breakdown__total">
+          <span class="order-breakdown__label">实付金额</span>
+          <span class="order-breakdown__total-value">&yen;<?php echo number_format($row['money'] * 1.01, 2)?></span>
+        </div>
       </div>
     </div>
   </div>
@@ -116,10 +121,8 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
   <!-- Pay Action -->
   <div class="pay-action">
     <div class="pay-action__info">
-      <div>需支付 <span class="pay-action__price">&yen;<?php echo $row['realmoney'] ? $row['realmoney'] : $row['money']?></span></div>
-      <?php if($row['realmoney'] && $row['realmoney'] != $row['money']){ ?>
-      <div class="pay-action__fee">含 <?php echo $row['realmoney'] - $row['money']?> 元手续费</div>
-      <?php } ?>
+      <div>实付 <span class="pay-action__price">&yen;<?php echo number_format(($row['realmoney'] ? $row['realmoney'] : $row['money']) * 1.01, 2)?></span></div>
+      <div class="pay-action__fee">含手续费 &yen;<?php echo number_format(($row['realmoney'] ? $row['realmoney'] : $row['money']) * 0.01, 2)?></div>
     </div>
     <a class="pay-action__btn immediate_pay">确认支付</a>
   </div>
