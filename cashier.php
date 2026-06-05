@@ -80,11 +80,11 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
           <span class="order-info__value"><?php echo $row['addtime']?></span>
         </li>
       </ul>
-      <div class="order-amount">
+      <!-- <div class="order-amount">
         <span class="order-amount__label">应付金额：</span>
         <span class="order-amount__symbol">&yen;</span>
         <span class="order-amount__value"><?php echo $row['money']?></span>
-      </div>
+      </div> -->
     </div>
   </div>
   <?php } ?>
