@@ -129,7 +129,8 @@ $(function(){
 
   // Submit payment
   $(document).on("click", ".immediate_pay", function(){
-    var value = $(".types").find(".active").data("value");
+    var active = $(".types").find(".active");
+    var value = active.length ? active.attr("data-value") : "";
     var trade_no = $("input[name='trade_no']").val();
     if(!value){
       $("#errorContent").text("请选择支付方式");
